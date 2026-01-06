@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Giải Esports Chào Xuân 2026 - Khoa CNTT & TT</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #00d2ff;
+      --secondary-color: #3a7bd5;
+      --accent-color: #ff0055;
+      --bg-dark: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --text-light: #f8fafc;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
+      color: var(--text-light);
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-top: 20px;
+    }
+
+    .logo-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      background: linear-gradient(to right, var(--primary-color), var(--secondary-color), #fff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+      filter: drop-shadow(0 0 10px rgba(0, 210, 255, 0.3));
+    }
+
+    .sub-title {
+      font-size: 1rem;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 400;
+    }
+
+    .org-name {
+      display: block;
+      margin-top: 5px;
+      color: var(--primary-color);
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    /* Tab Navigation */
+    .nav-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .tab-btn {
+      padding: 12px 25px;
+      border: none;
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+      font-family: 'Orbitron', sans-serif;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: 0.3s;
+      border-bottom: 3px solid transparent;
+      font-size: 0.9rem;
+    }
+
+    .tab-btn.active {
+      background: rgba(0, 210, 255, 0.1);
+      border-bottom: 3px solid var(--primary-color);
+      color: var(--primary-color);
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .stats {
+      display: inline-block;
+      margin-top: 15px;
+      background: var(--accent-color);
+      padding: 6px 20px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.85rem;
+      box-shadow: 0 0 15px rgba(255, 0, 85, 0.4);
+    }
+
+    /* Bảng & Form Container */
+    .content-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th {
+      font-family: 'Orbitron', sans-serif;
+      padding: 18px;
+      color: var(--primary-color);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 2px solid rgba(0, 210, 255, 0.2);
+    }
+
+    td {
+      padding: 15px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .rank-cell { font-weight: bold; color: var(--primary-color); width: 50px; }
+    .team-name { font-weight: 700; color: #fff; }
+
+    /* Iframe Styling */
+    .form-wrapper {
+      position: relative;
+      width: 100%;
+      height: 850px; 
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    iframe {
+      width: 100%;
+      height: 1400px; 
+      border: none;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      font-style: italic;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 600px) {
+      .logo-text { font-size: 1.4rem; }
+      th:nth-child(4), td:nth-child(4) { display: none; }
+      .tab-btn { padding: 10px 12px; font-size: 0.75rem; }
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-bottom: 20px;
+      font-size: 0.8rem;
+      color: #64748b;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="sub-title">Giải Thể thao điện tử (Esports) Chào xuân 2026</div>
+      <h1 class="logo-text">KHOA CNTT & TRUYỀN THÔNG MỞ RỘNG</h1>
+      <div class="stats" id="teamCount">Đang kiểm tra dữ liệu...</div>
+    </header>
+
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="openTab('list')">DANH SÁCH THI ĐẤU</button>
+      <button class="tab-btn" onclick="openTab('register')">ĐĂNG KÝ THAM GIA</button>
+    </div>
+
+    <!-- Tab Danh Sách -->
+    <div id="list" class="tab-content active">
+      <div class="content-card">
+        <table id="teamTable">
+          <thead>
+            <tr>
+              <th style="width: 50px;">#</th>
+              <th>Tên Đội</th>
+              <th>Đội Trưởng</th>
+              <th>Zalo Liên Hệ</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr>
+              <td colspan="4" class="loading">Đang tải danh sách đội tuyển...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tab Đăng Ký -->
+    <div id="register" class="tab-content">
+      <div class="content-card">
+        <div class="form-wrapper">
+          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc0XKJx9sANv3liyLayEl0CXM_EPzUUIEV5YD-i_frzNJmBsw/viewform?embedded=true">Đang tải biểu mẫu đăng ký…</iframe>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      BTC Giải Esports Chào Xuân 2026<br>
+      &copy; <b>Khoa Công nghệ thông tin & Truyền thông mở rộng</b>
+    </footer>
+  </div>
+
+<script>
+  // Hàm chuyển Tab
+  function openTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    
+    document.getElementById(tabId).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+
+  // URL API từ OpenSheet
+  const sheetUrl = "https://opensheet.elk.sh/10crYXMZq_zYVq9qhzj-1zXZUbICg459VtDszvN96Yp8/1";
+
+  async function fetchData() {
+    const tableBody = document.getElementById("tableBody");
+    const teamCountLabel = document.getElementById("teamCount");
+
+    try {
+      const response = await fetch(sheetUrl);
+      const data = await response.json();
+      tableBody.innerHTML = "";
+
+      // Lọc bỏ các hàng trống (dựa vào tên đội)
+      const validTeams = data.filter(row => {
+        const teamKey = "Đội của bạn tên gì?\n(Vui lòng đặt tên không liên quan đến chính trị, tôn giáo, sắc tộc, giới tính. Các bạn đặt tên mang nghĩa tích cực, vui vẻ tí nhé)";
+        return row[teamKey] && row[teamKey].trim() !== "";
+      });
+
+      // Chỉ lấy 16 đội đầu tiên
+      const first16 = validTeams.slice(0, 16);
+      
+      // Hiển thị trạng thái số lượng
+      if(first16.length >= 16) {
+        teamCountLabel.innerText = "Trạng thái: Đã đủ 16/16 Đội";
+        teamCountLabel.style.background = "#059669"; // Màu xanh lá khi đủ đội
+      } else {
+        teamCountLabel.innerText = `Danh sách chính thức: ${first16.length}/16 Đội`;
+      }
+
+      if (first16.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="4" class="loading">Chưa có đội đăng ký thành công.</td></tr>`;
+        return;
+      }
+
+      first16.forEach((row, index) => {
+        const tr = document.createElement("tr");
+        
+        const teamName = row["Đội của bạn tên gì?\n(Vui lòng đặt tên không liên quan đến chính trị, tôn giáo, sắc tộc, giới tính. Các bạn đặt tên mang nghĩa tích cực, vui vẻ tí nhé)"];
+        const leaderName = row["Họ và tên đội trưởng?"] || "-";
+        const phone = row["Số điện thoại của đội trưởng (có xài zalo)?\nCác bạn vui lòng tham gia group đội trưởng theo đường dẫn này nhé:"] || "-";
+
+        tr.innerHTML = `
+          <td class="rank-cell">${index + 1}</td>
+          <td class="team-name">${teamName}</td>
+          <td>${leaderName}</td>
+          <td><span style="color:#4ade80">${phone}</span></td>
+        `;
+        tableBody.appendChild(tr);
+      });
+
+    } catch (error) {
+      tableBody.innerHTML = `<tr><td colspan="4" class="loading" style="color:#ff0055">Không thể kết nối dữ liệu máy chủ</td></tr>`;
+      teamCountLabel.innerText = "Lỗi kết nối";
+    }
+  }
+
+  fetchData();
+</script>
+
+</body>
+</html>
