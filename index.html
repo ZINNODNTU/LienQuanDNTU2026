@@ -99,6 +99,13 @@
       transition: 0.3s;
       border-bottom: 3px solid transparent;
       font-size: 0.9rem;
+      /* Thêm thuộc tính này để thẻ a không bị gạch chân */
+      text-decoration: none; 
+      display: inline-block;
+    }
+
+    .tab-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .tab-btn.active {
@@ -121,7 +128,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Bảng & Form Container */
+    /* Bảng Container */
     .content-card {
       background: var(--card-bg);
       backdrop-filter: blur(10px);
@@ -154,21 +161,6 @@
 
     .rank-cell { font-weight: bold; color: var(--primary-color); width: 50px; }
     .team-name { font-weight: 700; color: #fff; }
-
-    /* Iframe Styling */
-    .form-wrapper {
-      position: relative;
-      width: 100%;
-      height: 850px; 
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    iframe {
-      width: 100%;
-      height: 1350px; 
-      border: none;
-    }
 
     .loading {
       text-align: center;
@@ -204,11 +196,18 @@
     </header>
 
     <div class="nav-tabs">
-      <button class="tab-btn active" onclick="openTab('list')">DANH SÁCH ĐỘI</button>
-      <button class="tab-btn" onclick="openTab('register')">ĐĂNG KÝ NGAY</button>
+      <!-- Nút này giữ nguyên là danh sách -->
+      <button class="tab-btn active">DANH SÁCH ĐỘI</button>
+      
+      <!-- Nút này đổi thành thẻ a để mở link trực tiếp -->
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSc0XKJx9sANv3liyLayEl0CXM_EPzUUIEV5YD-i_frzNJmBsw/viewform?usp=header" 
+         class="tab-btn" 
+         target="_blank">
+         ĐĂNG KÝ NGAY
+      </a>
     </div>
 
-    <!-- Tab Danh Sách -->
+    <!-- Tab Danh Sách (Luôn hiển thị vì tab kia là link ngoài) -->
     <div id="list" class="tab-content active">
       <div class="content-card">
         <table id="teamTable">
@@ -229,16 +228,6 @@
       </div>
     </div>
 
-    <!-- Tab Đăng Ký -->
-    <div id="register" class="tab-content">
-      <div class="content-card">
-        <div class="form-wrapper">
-          <!-- Lưu ý: Nếu có Link Google Form mới, hãy thay đổi thuộc tính src bên dưới -->
-          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc0XKJx9sANv3liyLayEl0CXM_EPzUUIEV5YD-i_frzNJmBsw/viewform?embedded=true">Đang tải biểu mẫu…</iframe>
-        </div>
-      </div>
-    </div>
-
     <footer>
       BTC Giải thể thao điện tử Chào xuân 2026<br>
       Trực thuộc: <b>Khoa Công nghệ thông tin & Truyền thông</b>
@@ -246,21 +235,12 @@
   </div>
 
 <script>
-  function openTab(tabId) {
-    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    document.getElementById(tabId).classList.add('active');
-    event.currentTarget.classList.add('active');
-  }
-
   // --- CẤU HÌNH SHEET MỚI ---
   const sheetId = "1zbs8PFD1lbzRFeRPNDpiaRrakLbulL8PajjyCHV5Lnw";
   const sheetUrl = `https://opensheet.elk.sh/${sheetId}/1`;
 
-  // Tên cột chính xác trong Sheet mới (bao gồm cả dấu xuống dòng và dấu câu)
   const COL_TEAM_NAME = "Đội của bạn tên gì?\n(Vui lòng đặt tên không liên quan đến chính trị, tôn giáo, sắc tộc, giới tính. Các bạn đặt tên mang nghĩa tích cực, vui vẻ tí nhé)";
   const COL_LEADER_NAME = "Họ và tên đội trưởng?";
-  // Lưu ý: Đã cập nhật phần 'Link Zalo' ở cuối theo header mới
   const COL_PHONE = "Số điện thoại của đội trưởng (có xài zalo)?\nCác bạn vui lòng tham gia group đội trưởng theo đường dẫn này nhé: Link Zalo";
 
   async function fetchData() {
@@ -289,7 +269,6 @@
       first16.forEach((row, index) => {
         const tr = document.createElement("tr");
         
-        // Lấy dữ liệu an toàn (tránh lỗi undefined)
         const teamName = row[COL_TEAM_NAME] || "Chưa đặt tên";
         const leaderName = row[COL_LEADER_NAME] || "-";
         const phone = row[COL_PHONE] || "-";
