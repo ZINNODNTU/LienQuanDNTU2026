@@ -48,7 +48,7 @@
 
     .logo-text {
       font-family: 'Orbitron', sans-serif;
-      font-size: 2.2rem; /* Giảm nhẹ font-size để phù hợp với tên dài */
+      font-size: 2.2rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -198,7 +198,6 @@
 
   <div class="container">
     <header>
- 
       <h1 class="logo-text">GIẢI THỂ THAO ĐIỆN TỬ<br>CHÀO XUÂN 2026</h1>
       <div class="dept-name">Khoa Công nghệ thông tin & Truyền thông</div>
       <div class="stats" id="teamCount">Đang đồng bộ dữ liệu...</div>
@@ -234,6 +233,7 @@
     <div id="register" class="tab-content">
       <div class="content-card">
         <div class="form-wrapper">
+          <!-- Lưu ý: Nếu có Link Google Form mới, hãy thay đổi thuộc tính src bên dưới -->
           <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc0XKJx9sANv3liyLayEl0CXM_EPzUUIEV5YD-i_frzNJmBsw/viewform?embedded=true">Đang tải biểu mẫu…</iframe>
         </div>
       </div>
@@ -253,8 +253,15 @@
     event.currentTarget.classList.add('active');
   }
 
-  // URL từ Google Sheets (giữ nguyên logic của bạn)
-  const sheetUrl = "https://opensheet.elk.sh/10crYXMZq_zYVq9qhzj-1zXZUbICg459VtDszvN96Yp8/1";
+  // --- CẤU HÌNH SHEET MỚI ---
+  const sheetId = "1zbs8PFD1lbzRFeRPNDpiaRrakLbulL8PajjyCHV5Lnw";
+  const sheetUrl = `https://opensheet.elk.sh/${sheetId}/1`;
+
+  // Tên cột chính xác trong Sheet mới (bao gồm cả dấu xuống dòng và dấu câu)
+  const COL_TEAM_NAME = "Đội của bạn tên gì?\n(Vui lòng đặt tên không liên quan đến chính trị, tôn giáo, sắc tộc, giới tính. Các bạn đặt tên mang nghĩa tích cực, vui vẻ tí nhé)";
+  const COL_LEADER_NAME = "Họ và tên đội trưởng?";
+  // Lưu ý: Đã cập nhật phần 'Link Zalo' ở cuối theo header mới
+  const COL_PHONE = "Số điện thoại của đội trưởng (có xài zalo)?\nCác bạn vui lòng tham gia group đội trưởng theo đường dẫn này nhé: Link Zalo";
 
   async function fetchData() {
     const tableBody = document.getElementById("tableBody");
@@ -265,11 +272,12 @@
       const data = await response.json();
       tableBody.innerHTML = "";
 
+      // Lọc các đội có tên hợp lệ
       const validTeams = data.filter(row => {
-        const teamKey = "Đội của bạn tên gì?\n(Vui lòng đặt tên không liên quan đến chính trị, tôn giáo, sắc tộc, giới tính. Các bạn đặt tên mang nghĩa tích cực, vui vẻ tí nhé)";
-        return row[teamKey] && row[teamKey].trim() !== "";
+        return row[COL_TEAM_NAME] && row[COL_TEAM_NAME].toString().trim() !== "";
       });
 
+      // Lấy 16 đội đầu tiên
       const first16 = validTeams.slice(0, 16);
       teamCountLabel.innerText = `Danh sách: ${first16.length}/16 Đội đăng ký`;
 
@@ -280,9 +288,11 @@
 
       first16.forEach((row, index) => {
         const tr = document.createElement("tr");
-        const teamName = row["Đội của bạn tên gì?\n(Vui lòng đặt tên không liên quan đến chính trị, tôn giáo, sắc tộc, giới tính. Các bạn đặt tên mang nghĩa tích cực, vui vẻ tí nhé)"];
-        const leaderName = row["Họ và tên đội trưởng?"] || "-";
-        const phone = row["Số điện thoại của đội trưởng (có xài zalo)?\nCác bạn vui lòng tham gia group đội trưởng theo đường dẫn này nhé:"] || "-";
+        
+        // Lấy dữ liệu an toàn (tránh lỗi undefined)
+        const teamName = row[COL_TEAM_NAME] || "Chưa đặt tên";
+        const leaderName = row[COL_LEADER_NAME] || "-";
+        const phone = row[COL_PHONE] || "-";
 
         tr.innerHTML = `
           <td class="rank-cell">${index + 1}</td>
@@ -294,7 +304,9 @@
       });
 
     } catch (error) {
-      tableBody.innerHTML = `<tr><td colspan="4" class="loading" style="color:#ff0055">Lỗi kết nối dữ liệu</td></tr>`;
+      console.error(error);
+      tableBody.innerHTML = `<tr><td colspan="4" class="loading" style="color:#ff0055">Lỗi kết nối dữ liệu (Vui lòng kiểm tra quyền truy cập Sheet)</td></tr>`;
+      teamCountLabel.innerText = "Lỗi kết nối";
     }
   }
 
